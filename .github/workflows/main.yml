@@ -19,14 +19,14 @@ jobs:
       uses: docker/login-action@v2
       with:
         username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_PASSWORD }}
+        password: ${{ secrets.DOCKER_PAT }}
 
     - name: Build and push Docker image
       uses: docker/build-push-action@v5
       with:
         context: .
         push: true
-        tags: yourdockerhubusername/golang-api:latest
+        tags: harsish/golang-api:latest
 
     - name: Deploy to EC2 via SSH
       uses: appleboy/ssh-action@v0.1.10
@@ -35,7 +35,7 @@ jobs:
         username: ${{ secrets.EC2_USER }}
         key: ${{ secrets.EC2_KEY }}
         script: |
-          docker pull yourdockerhubusername/golang-api:latest
+          docker pull harsish/golang-api:latest
           docker stop golang-api || true
           docker rm golang-api || true
-          docker run -d -p 8000:8000 --name golang-api yourdockerhubusername/golang-api:latest
+          docker run -d -p 8000:8000 --name golang-api harsish/golang-api:latest
