@@ -44,6 +44,7 @@ jobs:
         host: ${{ secrets.EC2_HOST }}
         username: ${{ secrets.EC2_USER }}
         key: ${{ secrets.EC2_KEY }}
+        script_stop: true
         script: |
           docker pull harsish/golang-api:latest
           docker stop golang-api || true
